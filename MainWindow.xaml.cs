@@ -12,12 +12,25 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MathParser2;
 
 namespace VisualProgramming
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+    public class Cycle
+    {
+
+    }
+
+    public class Condition
+    {
+
+    }
+
+    public class VisualParameter
+    {
+
+    }
+
     public partial class MainWindow : Window
     {
         public MainWindow()
