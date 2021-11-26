@@ -7,7 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MathParser2\MathParser2.csproj" />
+    <Compile Remove="MathParser2\**" />
+    <EmbeddedResource Remove="MathParser2\**" />
+    <None Remove="MathParser2\**" />
+    <Page Remove="MathParser2\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="MathParser2\MathParser2.csproj" />
   </ItemGroup>
 
 </Project>
