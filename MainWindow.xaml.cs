@@ -16,6 +16,11 @@ using MathParser2;
 
 namespace VisualProgramming
 {
+    public interface VisualCode
+    {
+
+    }
+
     public class CodeBlock
     {
         public Document Document
@@ -85,6 +90,7 @@ namespace VisualProgramming
         public Document() : base(null)
         {
             Variables = new Dictionary<string, Parameter>();
+            OriginalVariables = new Dictionary<string, Parameter>();
             InnerCode = new List<CodeBlock>();
         }
     }
@@ -167,10 +173,63 @@ namespace VisualProgramming
 
     public partial class MainWindow : Window
     {
+        private List<VisualCode> VisualCodes = new List<VisualCode>();
+
+        public const double Tab = 150;
+        public const double BetweenMargin = 10;
+
+        public const double DefaultHeight = 39;
+
         public static Document Document = new Document();
+
+        public void AddCondition(VisualCode visualCode = null)
+        {
+            if (visualCode != null)
+            {
+                switch (visualCode)
+                {
+                    case Condition condition:
+                        var conditionControl = new Condition();
+
+                        Grid.SetRow(conditionControl.InnerContent, condition.If.InnerCode.Count + 1);
+                        condition.InnerContent.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Auto), });
+
+                        conditionControl.InnerContent.Margin = new Thickness(Tab, BetweenMargin, 0, 0);
+
+                        VisualCodes.Add(conditionControl);
+                        condition.If.InnerCode.Add(conditionControl.If);
+
+                        condition.InnerContent.Children.Add(conditionControl.InnerContent);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                var conditionControl = new Condition();
+
+                Grid.SetRow(conditionControl.InnerContent, VisualCodes.Count);
+
+                Document.InnerCode.Add(conditionControl.If);
+
+                conditionControl.InnerContent.Margin = new Thickness(0, BetweenMargin, 0, 0);
+
+                VisualCodes.Add(conditionControl);
+
+                Playground.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Auto), });
+                Playground.Children.Add(conditionControl.InnerContent);
+            }
+        }
+
         public MainWindow()
         {
             InitializeComponent();
+            AddCondition();
+            AddCondition();
+            AddCondition(VisualCodes[0]);
+
+            Document.Compile();
         }
     }
 }

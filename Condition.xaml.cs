@@ -18,9 +18,16 @@ namespace VisualProgramming
     /// <summary>
     /// Interaction logic for Condition.xaml
     /// </summary>
-    public partial class Condition : UserControl
+    public partial class Condition : UserControl, VisualCode
     {
         public If If
+        {
+            get; private set;
+        }
+
+        public double Tabulation = 0;
+
+        public Grid InnerContent
         {
             get; private set;
         }
@@ -34,7 +41,7 @@ namespace VisualProgramming
             var width = Function.DesiredSize.Width + ConditionInput.DesiredSize.Width;
 
             this.Width = width;
-            this.Height = 39;
+            this.Height = MainWindow.DefaultHeight;
         }
 
         public Action AddedInnerCode;
@@ -43,9 +50,14 @@ namespace VisualProgramming
         {
             If = new If(MainWindow.Document);
 
+            InnerContent = new Grid();
+
             InitializeComponent();
 
-            FitContent();            
+            InnerContent.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Auto), });
+            InnerContent.Children.Add(this);
+
+            FitContent();
         }
 
         private void Condition_TextChanged(object sender, TextChangedEventArgs e)

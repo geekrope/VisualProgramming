@@ -7,10 +7,16 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Canvas>
-            <local:Condition>
-            </local:Condition>
-        </Canvas>
-        
+        <Viewbox>
+            <Grid Name="Playground" Width="800" Height="450">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+            </Grid>
+        </Viewbox>
     </Grid>
 </Window>
