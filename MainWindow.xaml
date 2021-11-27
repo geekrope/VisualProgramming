@@ -15,7 +15,9 @@
             <DockPanel Grid.Row="0" Background="#FFF0F0F0">
                 <Menu DockPanel.Dock="Top" FontSize="18" Background="#00F0F0F0">
                     <MenuItem Header="_File">
-                        <MenuItem Header="_Exit" />
+                        <MenuItem Header="_New" />
+                        <MenuItem Header="_Save" />
+                        <MenuItem Header="_Open" />
                     </MenuItem>
                     <MenuItem Header="_Tools">
                         <MenuItem Header="_Add condition" Name="_AddCondition" Click="_AddCondition_Click"/>
