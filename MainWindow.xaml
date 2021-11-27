@@ -7,30 +7,44 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" KeyDown="Window_KeyDown">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0">
-            <Menu DockPanel.Dock="Top" FontSize="24">
-                <MenuItem Header="_File">
-                    <MenuItem Header="_Exit" />
-                </MenuItem>
-                <MenuItem Header="_Tools">
-                    <MenuItem Header="_Add condition" Name="_AddCondition" Click="_AddCondition_Click"/>
-                    <MenuItem Header="_Add cycle" Name="_AddCycle" Click="_AddCycle_Click"/>
-                    <MenuItem Header="_Add parameter assignment" Name="_AddParameter" Click="_AddParameter_Click"/>
-                </MenuItem>
-            </Menu>
-        </DockPanel>
-        <Label Name="PlainText" Grid.Row="1" HorizontalAlignment="Right" Width="300">
-            
-        </Label>
-        <Viewbox Grid.Row="1">
-            <Grid Name="Playground" Width="800" Height="450">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <DockPanel Grid.Row="0" Background="#FFF0F0F0">
+                <Menu DockPanel.Dock="Top" FontSize="18" Background="#00F0F0F0">
+                    <MenuItem Header="_File">
+                        <MenuItem Header="_Exit" />
+                    </MenuItem>
+                    <MenuItem Header="_Tools">
+                        <MenuItem Header="_Add condition" Name="_AddCondition" Click="_AddCondition_Click"/>
+                        <MenuItem Header="_Add cycle" Name="_AddCycle" Click="_AddCycle_Click"/>
+                        <MenuItem Header="_Add parameter assignment" Name="_AddParameter" Click="_AddParameter_Click"/>
+                    </MenuItem>
+                    <Label Name="Compile" MouseDown="Compile_MouseDown">
+                        Compile
+                    </Label>
+                </Menu>
+                <Grid HorizontalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                </Grid>
+            </DockPanel>
+
+            <Label FontSize="18" Name="PlainText" Grid.Row="1" HorizontalAlignment="Right" Width="200">
+
+            </Label>
+
+            <Grid Grid.Row="1" Name="Playground">
                 <Grid.RowDefinitions>
-                </Grid.RowDefinitions>               
+                </Grid.RowDefinitions>
             </Grid>
-        </Viewbox>      
+        </Grid>
+        <TextBlock Name="Output" Padding="5" FontSize="18" Height="200" VerticalAlignment="Bottom">
+
+        </TextBlock>
     </Grid>
 </Window>

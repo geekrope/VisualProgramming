@@ -5,18 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:VisualProgramming"
              mc:Ignorable="d" 
-             d:DesignHeight="40" d:DesignWidth="800" HorizontalAlignment="Left" MouseWheel="UserControl_MouseWheel">
+             d:DesignHeight="55" d:DesignWidth="800" HorizontalAlignment="Left" MouseWheel="UserControl_MouseWheel">
     <Grid>
-        <Border BorderThickness="1.6" BorderBrush="#FFABADB3" CornerRadius="10,10,10,10">
+        <Border BorderThickness="1.6" BorderBrush="#FFABADB3" Background="#FFF" CornerRadius="10,10,10,10">
             <Grid Margin="0,2,0,2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBox Name="ParameterName" VerticalAlignment="Center" Grid.Column="0" Margin="10,0,0,0" Text="a" FontSize="24" BorderThickness="0" Background="Transparent" BorderBrush="#00ABADB3" TextChanged="ParameterName_TextChanged"/>
-                <TextBlock Name="Function" VerticalAlignment="Center" Grid.Column="1" Text="=" FontSize="24" Margin="10,0,10,0"/>
-                <TextBox Name="ParameterValue" VerticalAlignment="Center" Grid.Column="2" Text="10" FontSize="24" BorderThickness="0" Margin="0,0,10,0" Background="Transparent" BorderBrush="#00ABADB3" TextChanged="ParameterValue_TextChanged"/>
+                <TextBox Name="ParameterName" VerticalAlignment="Center" Grid.Column="0" Margin="10,0,0,0" Text="a" FontSize="36" BorderThickness="0" Background="Transparent" BorderBrush="#00ABADB3" TextChanged="ParameterName_TextChanged"/>
+                <TextBlock Name="Function" VerticalAlignment="Center" Grid.Column="1" Text="=" FontSize="36" Margin="10,0,10,0"/>
+                <TextBox Name="ParameterValue" VerticalAlignment="Center" Grid.Column="2" Text="10" FontSize="36" BorderThickness="0" Margin="0,0,10,0" Background="Transparent" BorderBrush="#00ABADB3" TextChanged="ParameterValue_TextChanged"/>
             </Grid>
         </Border>
     </Grid>

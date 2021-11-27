@@ -227,7 +227,7 @@ namespace VisualProgramming
         private const double Tab = 150;
         private const double BetweenMargin = 10;
 
-        public const double DefaultHeight = 40;
+        public const double DefaultHeight = 55;
 
         public static Document Document = new Document();
 
@@ -511,6 +511,20 @@ namespace VisualProgramming
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
 
+        }
+
+        private void Compile_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Document.Compile();
+
+            var output = "";
+
+            foreach (var variable in Document.Variables)
+            {
+                output += variable.Key + "=" + variable.Value.Value.ToString() + "\n";
+            }
+
+            Output.Text = output;
         }
     }
 }
