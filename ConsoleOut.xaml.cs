@@ -16,14 +16,11 @@ using System.Windows.Shapes;
 namespace VisualProgramming
 {
     /// <summary>
-    /// Interaction logic for VisualCycle.xaml
+    /// Interaction logic for ConsoleOut.xaml
     /// </summary>
-    public partial class VisualCycle : UserControl, VisualCode
+    public partial class ConsoleOut : UserControl, VisualCode
     {
-        public Cycle Cycle
-        {
-            get; private set;
-        }
+        public ConsoleLog ConsoleLog;
 
         public double Tabulation = 0;
 
@@ -34,7 +31,7 @@ namespace VisualProgramming
 
         public CodeBlock GetInnerCodeBlock()
         {
-            return Cycle;
+            return ConsoleLog;
         }
 
         public Grid GetInnerGrid()
@@ -44,20 +41,20 @@ namespace VisualProgramming
 
         private void FitContent()
         {
-            if (Function != null && ConditionInput != null)
+            if (Function != null && ConsoleOutput != null)
             {
                 Function.Measure(new Size(double.MaxValue, double.MaxValue));
-                ConditionInput.Measure(new Size(double.MaxValue, double.MaxValue));
+                ConsoleOutput.Measure(new Size(double.MaxValue, double.MaxValue));
 
-                var width = Function.DesiredSize.Width + ConditionInput.DesiredSize.Width;
+                var width = Function.DesiredSize.Width + ConsoleOutput.DesiredSize.Width;
 
                 this.Width = width;
                 this.Height = MainWindow.DefaultHeight;
             }
         }
-        public VisualCycle()
+        public ConsoleOut()
         {
-            Cycle = new Cycle(this, MainWindow.SelectedCodeBlock, MainWindow.Document);
+            ConsoleLog = new ConsoleLog(this, MainWindow.SelectedCodeBlock, MainWindow.Document);
 
             InnerContent = new Grid();
 
@@ -77,25 +74,13 @@ namespace VisualProgramming
             FitContent();
         }
 
-        private void ConditionInput_TextChanged(object sender, TextChangedEventArgs e)
+        private void Output_TextChanged(object sender, TextChangedEventArgs e)
         {
             FitContent();
-            Cycle.Condition = ConditionInput.Text;
-            MainWindow.OnUpdate();
-        }
 
-        private void Select_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (MainWindow.SelectedItem != this)
-            {
-                MainWindow.SelectedItem = this;
-                Selection.Background = new SolidColorBrush(Color.FromArgb(30, Colors.DodgerBlue.R, Colors.DodgerBlue.G, Colors.DodgerBlue.B));
-            }
-            else
-            {
-                MainWindow.SelectedItem = null;
-                Selection.Background = new SolidColorBrush(Colors.Transparent);
-            }
+            ConsoleLog.Value = ConsoleOutput.Text;
+
+            MainWindow.OnUpdate();
         }
 
         private void UserControl_MouseWheel(object sender, MouseWheelEventArgs e)

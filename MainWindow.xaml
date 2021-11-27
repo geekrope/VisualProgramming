@@ -23,6 +23,7 @@
                         <MenuItem Header="_Add condition" Name="_AddCondition" Click="_AddCondition_Click"/>
                         <MenuItem Header="_Add cycle" Name="_AddCycle" Click="_AddCycle_Click"/>
                         <MenuItem Header="_Add parameter assignment" Name="_AddParameter" Click="_AddParameter_Click"/>
+                        <MenuItem Header="_Add log to console" Name="_AddConsoleLog" Click="_AddConsoleLog_Click"/>
                     </MenuItem>
                     <Label Name="Compile" MouseDown="Compile_MouseDown">
                         Compile

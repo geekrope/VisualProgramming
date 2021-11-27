@@ -216,6 +216,28 @@ namespace VisualProgramming
         }
     }
 
+    public class ConsoleLog : CodeBlock
+    {
+        public string Value
+        {
+            get; set;
+        }
+
+        public override void Compile()
+        {
+            var parsedValue = MathParser.Parse(Value, this.Document.Variables.Values.ToList());
+            MainWindow.ConsoleOutput += "\n" + MathParser.EvaluateOperand(parsedValue);
+        }
+        public ConsoleLog(VisualCode container, CodeBlock parent, Document doc) : base(container, parent, doc)
+        {
+
+        }
+        public override string ToString()
+        {
+            return "console.log(" + Value + ")";
+        }
+    }
+
     public partial class MainWindow : Window
     {
         private static VisualCode selectedItem = null;
@@ -223,11 +245,26 @@ namespace VisualProgramming
         {
             get; set;
         }
+        private static string consoleOutput = "";
+        private static Action OnConsoleChanged;
 
         private const double Tab = 150;
         private const double BetweenMargin = 10;
 
         public const double DefaultHeight = 55;
+
+        public static string ConsoleOutput
+        {
+            get
+            {
+                return consoleOutput;
+            }
+            set
+            {
+                consoleOutput = value;
+                OnConsoleChanged();
+            }
+        }
 
         public static Document Document = new Document();
 
@@ -472,6 +509,59 @@ namespace VisualProgramming
             }
         }
 
+        private void AddConsoleLog(VisualCode visualCode = null)
+        {
+            if (visualCode != null)
+            {
+                Action<VisualCode> addCondition = (VisualCode code) =>
+                {
+                    var consoleControl = new ConsoleOut();
+
+                    consoleControl.InnerContent.Margin = new Thickness(Tab, BetweenMargin, 0, 0);
+
+                    switch (visualCode)
+                    {
+                        case VisualCycle cycle:
+                            Grid.SetRow(consoleControl.InnerContent, cycle.Cycle.InnerCode.Count + 1);
+                            cycle.InnerContent.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Auto) });
+
+                            cycle.Cycle.InnerCode.Add(consoleControl.ConsoleLog);
+
+                            cycle.InnerContent.Children.Add(consoleControl.InnerContent);
+                            break;
+                        case Condition condition:
+
+                            Grid.SetRow(consoleControl.InnerContent, condition.If.InnerCode.Count + 1);
+                            condition.InnerContent.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Auto) });
+
+                            condition.If.InnerCode.Add(consoleControl.ConsoleLog);
+
+                            condition.InnerContent.Children.Add(consoleControl.InnerContent);
+                            break;
+                    }
+
+                    VisualCodes.Add(consoleControl);
+                };
+
+                addCondition(visualCode);
+            }
+            else
+            {
+                var consoleControl = new ConsoleOut();
+
+                Grid.SetRow(consoleControl.InnerContent, Document.InnerCode.Count);
+
+                Document.InnerCode.Add(consoleControl.ConsoleLog);
+
+                consoleControl.InnerContent.Margin = new Thickness(0, BetweenMargin, 0, 0);
+
+                VisualCodes.Add(consoleControl);
+
+                Playground.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Auto), });
+                Playground.Children.Add(consoleControl.InnerContent);
+            }
+        }
+
         public static Action OnUpdate;
 
         public void UpdateText()
@@ -488,6 +578,10 @@ namespace VisualProgramming
             Document.Compile();
 
             OnUpdate += UpdateText;
+            OnConsoleChanged += () =>
+            {
+                Output.Text = ConsoleOutput;
+            };
         }
 
         private void _AddCondition_Click(object sender, RoutedEventArgs e)
@@ -508,6 +602,12 @@ namespace VisualProgramming
             OnUpdate();
         }
 
+        private void _AddConsoleLog_Click(object sender, RoutedEventArgs e)
+        {
+            AddConsoleLog(SelectedItem);
+            OnUpdate();
+        }
+
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
 
@@ -515,24 +615,17 @@ namespace VisualProgramming
 
         private void Compile_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            ConsoleOutput = "";
+
             try
             {
                 Document.Compile();
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message,"error");
+                MessageBox.Show(exception.Message, "error");
                 return;
             }
-
-            var output = "";
-
-            foreach (var variable in Document.Variables)
-            {
-                output += variable.Key + "=" + variable.Value.Value.ToString() + "\n";
-            }
-
-            Output.Text = output;
         }
     }
 }

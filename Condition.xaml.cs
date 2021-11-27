@@ -97,7 +97,7 @@ namespace VisualProgramming
             else
             {
                 MainWindow.SelectedItem = null;
-                Selection.Background = new SolidColorBrush(Colors.White);
+                Selection.Background = new SolidColorBrush(Colors.Transparent);
             }
         }
 
