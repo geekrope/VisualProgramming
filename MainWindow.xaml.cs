@@ -515,7 +515,15 @@ namespace VisualProgramming
 
         private void Compile_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Document.Compile();
+            try
+            {
+                Document.Compile();
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message,"error");
+                return;
+            }
 
             var output = "";
 
