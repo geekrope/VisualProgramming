@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace VisualProgramming
 {
     /// <summary>
-    /// Interaction logic for Condition.xaml
+    /// Interaction logic for VisualCycle.xaml
     /// </summary>
-    public partial class Condition : UserControl, VisualCode
+    public partial class VisualCycle : UserControl, VisualCode
     {
-        public If If
+        public Cycle Cycle
         {
             get; private set;
         }
@@ -34,7 +34,7 @@ namespace VisualProgramming
 
         public CodeBlock GetInnerCodeBlock()
         {
-            return If;
+            return Cycle;
         }
 
         public Grid GetInnerGrid()
@@ -55,10 +55,9 @@ namespace VisualProgramming
                 this.Height = MainWindow.DefaultHeight;
             }
         }
-
-        public Condition()
+        public VisualCycle()
         {
-            If = new If(this, MainWindow.SelectedCodeBlock, MainWindow.Document);
+            Cycle = new Cycle(this, MainWindow.SelectedCodeBlock, MainWindow.Document);
 
             InnerContent = new Grid();
 
@@ -78,12 +77,10 @@ namespace VisualProgramming
             FitContent();
         }
 
-        private void Condition_TextChanged(object sender, TextChangedEventArgs e)
+        private void ConditionInput_TextChanged(object sender, TextChangedEventArgs e)
         {
             FitContent();
-
-            If.Condition = ConditionInput.Text;
-
+            Cycle.Condition = ConditionInput.Text;
             MainWindow.OnUpdate();
         }
 

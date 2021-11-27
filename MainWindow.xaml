@@ -5,18 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VisualProgramming"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" KeyDown="Window_KeyDown">
     <Grid>
-        <Viewbox>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0">
+            <Menu DockPanel.Dock="Top" FontSize="24">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_Exit" />
+                </MenuItem>
+                <MenuItem Header="_Tools">
+                    <MenuItem Header="_Add condition" Name="_AddCondition" Click="_AddCondition_Click"/>
+                    <MenuItem Header="_Add cycle" Name="_AddCycle" Click="_AddCycle_Click"/>
+                    <MenuItem Header="_Add parameter assignment" Name="_AddParameter" Click="_AddParameter_Click"/>
+                </MenuItem>
+            </Menu>
+        </DockPanel>
+        <Label Name="PlainText" Grid.Row="1" HorizontalAlignment="Right" Width="300">
+            
+        </Label>
+        <Viewbox Grid.Row="1">
             <Grid Name="Playground" Width="800" Height="450">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+                </Grid.RowDefinitions>               
             </Grid>
-        </Viewbox>
+        </Viewbox>      
     </Grid>
 </Window>

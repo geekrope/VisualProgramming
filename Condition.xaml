@@ -4,15 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:VisualProgramming"
-             mc:Ignorable="d" d:DesignWidth="800" Height="39">
+             mc:Ignorable="d" d:DesignWidth="800" Height="40" HorizontalAlignment="Left" MouseWheel="UserControl_MouseWheel">
     <Grid>
-        <Border BorderThickness="1.6" BorderBrush="#FFABADB3" CornerRadius="10,10,10,10">
+        <Border Name="Selection" BorderThickness="1.6" BorderBrush="#FFABADB3" Background="#FFF" CornerRadius="10,10,10,10" MouseDown="Select_MouseDown">
             <Grid Margin="0,2,0,2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Name="Function" VerticalAlignment="Center" Text="IF" FontSize="24" Margin="10,0,10,0"/>
+                <TextBlock Name="Function" VerticalAlignment="Center" Text="if" FontSize="24" Margin="10,0,10,0"/>
                 <TextBox Name="ConditionInput" VerticalAlignment="Center" Grid.Column="1" Text="10>0" FontSize="24" BorderThickness="0" Margin="0,0,10,0" Background="Transparent" BorderBrush="#00ABADB3" TextChanged="Condition_TextChanged"/>
             </Grid>
         </Border>
