@@ -89,15 +89,22 @@ namespace VisualProgramming
 
         private void Select_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (MainWindow.SelectedItem != this)
+            if (e.LeftButton == MouseButtonState.Pressed)
             {
-                MainWindow.SelectedItem = this;
-                Selection.Background = new SolidColorBrush(Color.FromArgb(30, Colors.DodgerBlue.R, Colors.DodgerBlue.G, Colors.DodgerBlue.B));
+                if (MainWindow.SelectedItem != this)
+                {
+                    MainWindow.SelectedItem = this;
+                    Selection.Background = new SolidColorBrush(Color.FromArgb(30, Colors.DodgerBlue.R, Colors.DodgerBlue.G, Colors.DodgerBlue.B));
+                }
+                else
+                {
+                    MainWindow.SelectedItem = null;
+                    Selection.Background = new SolidColorBrush(Colors.Transparent);
+                }
             }
-            else
+            else if(e.RightButton == MouseButtonState.Pressed)
             {
-                MainWindow.SelectedItem = null;
-                Selection.Background = new SolidColorBrush(Colors.Transparent);
+                MainWindow.RemoveItem(this);
             }
         }
 

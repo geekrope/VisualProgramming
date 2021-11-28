@@ -99,6 +99,8 @@ namespace VisualProgramming
         }
         public override void Compile()
         {
+            var consoleOutput = MainWindow.ConsoleOutput.ToString();
+
             Variables = OriginalVariables.ToDictionary(entry => entry.Key, entry => new Parameter(entry.Value.Name, entry.Value.Value));
             CompilationEnded = false;
 
@@ -112,6 +114,11 @@ namespace VisualProgramming
             }
 
             CompilatuionEnded?.Invoke();
+
+            if (consoleOutput != MainWindow.ConsoleOutput.ToString())
+            {
+                MainWindow.OnConsoleChanged();
+            }
         }
         public override void EndCompilation()
         {
@@ -272,7 +279,7 @@ namespace VisualProgramming
         public override void Compile()
         {
             var parsedValue = MathParser.Parse(Value, this.Document.Variables.Values.ToList());
-            MainWindow.ConsoleOutput += "\n" + MathParser.EvaluateOperand(parsedValue);
+            MainWindow.ConsoleOutput.AppendLine(MathParser.EvaluateOperand(parsedValue).ToString());
         }
         public ConsoleLog(VisualCode container, CodeBlock parent, Document doc) : base(container, parent, doc)
         {
@@ -291,15 +298,14 @@ namespace VisualProgramming
         {
             get; set;
         }
-        private static string consoleOutput = "";
-        private static Action OnConsoleChanged;
+        private static StringBuilder consoleOutput = new StringBuilder();
 
         private const double Tab = 150;
         private const double BetweenMargin = 10;
 
         public const double DefaultHeight = 55;
 
-        public static string ConsoleOutput
+        public static StringBuilder ConsoleOutput
         {
             get
             {
@@ -394,6 +400,33 @@ namespace VisualProgramming
             }
 
             OnUpdate();
+        }
+
+        public static void RemoveItem(VisualCode code)
+        {
+            var innerGrid = (Grid)code.GetInnerGrid().Parent;
+            var row = Grid.GetRow(code.GetInnerGrid());
+            foreach (UIElement child in innerGrid.Children)
+            {
+                var childRow = Grid.GetRow(child);
+                if (childRow > row)
+                {
+                    Grid.SetRow(child, childRow - 1);
+                }
+            }
+
+            innerGrid.RowDefinitions.RemoveAt(innerGrid.RowDefinitions.Count - 1);
+            innerGrid.Children.Remove(code.GetInnerGrid());
+
+            var codeBlock = code.GetInnerCodeBlock();
+            codeBlock.Parent.InnerCode.Remove(codeBlock);
+
+            OnUpdate();
+        }
+
+        public static Action OnConsoleChanged
+        {
+            get; private set;
         }
 
         private void AddCondition(VisualCode visualCode = null)
@@ -633,7 +666,7 @@ namespace VisualProgramming
             {
                 this.Dispatcher.Invoke(() =>
                 {
-                    Output.Text = ConsoleOutput;
+                    Output.Text = ConsoleOutput.ToString();
                 });
             };
             Document.CompilatuionEnded += () =>
@@ -676,7 +709,7 @@ namespace VisualProgramming
 
         private void Compile_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            ConsoleOutput = "";
+            ConsoleOutput.Clear();
 
             UpperMenu.IsEnabled = false;
 

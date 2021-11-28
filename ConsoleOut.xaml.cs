@@ -87,5 +87,13 @@ namespace VisualProgramming
         {
             MainWindow.Swap(this, e.Delta);
         }
+
+        private void Selection_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.RightButton == MouseButtonState.Pressed)
+            {
+                MainWindow.RemoveItem(this);
+            }
+        }
     }
 }
