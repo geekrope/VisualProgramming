@@ -49,6 +49,11 @@ namespace VisualProgramming
 
         }
 
+        public virtual void EndCompilation()
+        {
+
+        }
+
         public CodeBlock(VisualCode container = null, CodeBlock parent = null, Document doc = null)
         {
             Parent = parent;
@@ -71,11 +76,14 @@ namespace VisualProgramming
         {
             get; set;
         }
+        private bool CompilationEnded = false;
 
         public Dictionary<string, Parameter> Variables
         {
             get; private set;
         }
+
+        public Action CompilatuionEnded;
 
         public void SetValue(string varName, Literal value)
         {
@@ -92,9 +100,25 @@ namespace VisualProgramming
         public override void Compile()
         {
             Variables = OriginalVariables.ToDictionary(entry => entry.Key, entry => new Parameter(entry.Value.Name, entry.Value.Value));
+            CompilationEnded = false;
+
             foreach (var block in InnerCode)
             {
                 block.Compile();
+                if (CompilationEnded)
+                {
+                    break;
+                }
+            }
+
+            CompilatuionEnded?.Invoke();
+        }
+        public override void EndCompilation()
+        {
+            CompilationEnded = true;
+            foreach (var block in InnerCode)
+            {
+                block.EndCompilation();
             }
         }
 
@@ -128,16 +152,34 @@ namespace VisualProgramming
         {
             get; set;
         }
+        private bool CompilationEnded = false;
+        private const long MaxCallStack = 100000000;
+        private int CallsCount = 0;
 
         public override void Compile()
         {
             var parsedCondition = MathParser.Parse(Condition, this.Document.Variables.Values.ToList());
+
+            CompilationEnded = false;
+
+            CallsCount = 0;
 
             while ((BooleanLiteral)MathParser.EvaluateOperand(parsedCondition))
             {
                 foreach (var block in InnerCode)
                 {
                     block.Compile();
+                }
+                if (CompilationEnded)
+                {
+                    break;
+                }
+
+                CallsCount++;
+                if (CallsCount > MaxCallStack)
+                {
+                    MessageBox.Show("Max call stack was exceeded");
+                    Document.EndCompilation();
                 }
             }
         }
@@ -153,6 +195,10 @@ namespace VisualProgramming
                 innerCode += "\n" + code.ToString();
             }
             return "while(" + Condition + ")\n{" + innerCode + "\n}";
+        }
+        public override void EndCompilation()
+        {
+            CompilationEnded = true;
         }
     }
 
@@ -509,6 +555,11 @@ namespace VisualProgramming
             }
         }
 
+        private async void AsyncCompiler()
+        {
+            await Task.Run(() => Document.Compile());
+        }
+
         private void AddConsoleLog(VisualCode visualCode = null)
         {
             if (visualCode != null)
@@ -580,7 +631,17 @@ namespace VisualProgramming
             OnUpdate += UpdateText;
             OnConsoleChanged += () =>
             {
-                Output.Text = ConsoleOutput;
+                this.Dispatcher.Invoke(() =>
+                {
+                    Output.Text = ConsoleOutput;
+                });
+            };
+            Document.CompilatuionEnded += () =>
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    UpperMenu.IsEnabled = true;
+                });
             };
         }
 
@@ -617,15 +678,22 @@ namespace VisualProgramming
         {
             ConsoleOutput = "";
 
+            UpperMenu.IsEnabled = false;
+
             try
             {
-                Document.Compile();
+                AsyncCompiler();
             }
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message, "error");
                 return;
             }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Document.EndCompilation();
         }
     }
 }

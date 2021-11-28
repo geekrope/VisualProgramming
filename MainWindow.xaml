@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VisualProgramming"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" KeyDown="Window_KeyDown">
+        Title="MainWindow" Height="450" Width="800" KeyDown="Window_KeyDown" Closing="Window_Closing">
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <DockPanel Grid.Row="0" Background="#FFF0F0F0">
+            <DockPanel Name="UpperMenu" Grid.Row="0" Background="#FFF0F0F0">
                 <Menu DockPanel.Dock="Top" FontSize="18" Background="#00F0F0F0">
                     <MenuItem Header="_File">
                         <MenuItem Header="_New" />
@@ -46,8 +46,10 @@
                 </Grid.RowDefinitions>
             </Grid>
         </Grid>
-        <TextBlock Name="Output" Padding="5" FontSize="18" Height="200" VerticalAlignment="Bottom">
+        <ScrollViewer Height="200" VerticalAlignment="Bottom">
+            <TextBlock Name="Output" Padding="5" FontSize="18">
 
-        </TextBlock>
+            </TextBlock>
+        </ScrollViewer>
     </Grid>
 </Window>
