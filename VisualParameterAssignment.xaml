@@ -16,7 +16,7 @@
                 </Grid.ColumnDefinitions>
                 <TextBox Name="ParameterName" VerticalAlignment="Center" Grid.Column="0" Margin="10,0,0,0" Text="a" FontSize="36" BorderThickness="0" Background="Transparent" BorderBrush="#00ABADB3" TextChanged="ParameterName_TextChanged"/>
                 <TextBlock Name="Function" VerticalAlignment="Center" Grid.Column="1" Text="=" FontSize="36" Margin="10,0,10,0"/>
-                <TextBox Name="ParameterValue" VerticalAlignment="Center" Grid.Column="2" Text="10" FontSize="36" BorderThickness="0" Margin="0,0,10,0" Background="Transparent" BorderBrush="#00ABADB3" TextChanged="ParameterValue_TextChanged"/>
+                <TextBox Name="ParameterValue" VerticalAlignment="Center" Grid.Column="2" Text="0" FontSize="36" BorderThickness="0" Margin="0,0,10,0" Background="Transparent" BorderBrush="#00ABADB3" TextChanged="ParameterValue_TextChanged"/>
             </Grid>
         </Border>
     </Grid>

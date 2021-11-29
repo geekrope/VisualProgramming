@@ -47,7 +47,7 @@
             </Grid>
         </Grid>
         <ScrollViewer Height="200" VerticalAlignment="Bottom" UseLayoutRounding="True" VerticalScrollBarVisibility="Auto">
-            <TextBlock Name="Output" Padding="5" FontSize="18">
+            <TextBlock Name="Output" Padding="5" FontSize="18" Background="White">
 
             </TextBlock>
         </ScrollViewer>

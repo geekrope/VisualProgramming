@@ -99,7 +99,8 @@ namespace VisualProgramming
         }
         public override void Compile()
         {
-            var consoleOutput = MainWindow.ConsoleOutput.ToString();
+            MainWindow.ConsoleOutput.Clear();
+            MainWindow.OnConsoleChanged();
 
             Variables = OriginalVariables.ToDictionary(entry => entry.Key, entry => new Parameter(entry.Value.Name, entry.Value.Value));
             CompilationEnded = false;
@@ -115,7 +116,7 @@ namespace VisualProgramming
 
             CompilatuionEnded?.Invoke();
 
-            if (consoleOutput != MainWindow.ConsoleOutput.ToString())
+            if ("" != MainWindow.ConsoleOutput.ToString())
             {
                 MainWindow.OnConsoleChanged();
             }
@@ -659,8 +660,6 @@ namespace VisualProgramming
 
             VisualCodes = new List<VisualCode>();
 
-            Document.Compile();
-
             OnUpdate += UpdateText;
             OnConsoleChanged += () =>
             {
@@ -674,6 +673,7 @@ namespace VisualProgramming
                 this.Dispatcher.Invoke(() =>
                 {
                     UpperMenu.IsEnabled = true;
+                    Playground.IsEnabled = true;
                 });
             };
         }
@@ -709,9 +709,8 @@ namespace VisualProgramming
 
         private void Compile_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            ConsoleOutput.Clear();
-
             UpperMenu.IsEnabled = false;
+            Playground.IsEnabled = false;
 
             try
             {

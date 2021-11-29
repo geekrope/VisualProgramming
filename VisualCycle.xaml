@@ -14,7 +14,7 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Name="Function" VerticalAlignment="Center" Text="while" FontSize="36" Margin="10,0,10,0"/>
-                <TextBox Name="ConditionInput" VerticalAlignment="Center" Grid.Column="1" Text="10>0" FontSize="36" BorderThickness="0" Margin="0,0,10,0" Background="Transparent" BorderBrush="#00ABADB3" TextChanged="ConditionInput_TextChanged"/>
+                <TextBox Name="ConditionInput" VerticalAlignment="Center" Grid.Column="1" Text="false" FontSize="36" BorderThickness="0" Margin="0,0,10,0" Background="Transparent" BorderBrush="#00ABADB3" TextChanged="ConditionInput_TextChanged"/>
             </Grid>
         </Border>
     </Grid>

@@ -14,7 +14,7 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Name="Function" VerticalAlignment="Center" Text="out" FontSize="36" Margin="10,0,10,0"/>
-                <TextBox Name="ConsoleOutput" VerticalAlignment="Center" Grid.Column="1" Text="2+2" FontSize="36" BorderThickness="0" Margin="0,0,10,0" Background="Transparent" BorderBrush="#00ABADB3" TextChanged="Output_TextChanged"/>
+                <TextBox Name="ConsoleOutput" VerticalAlignment="Center" Grid.Column="1" Text="5" FontSize="36" BorderThickness="0" Margin="0,0,10,0" Background="Transparent" BorderBrush="#00ABADB3" TextChanged="Output_TextChanged"/>
             </Grid>
         </Border>
     </Grid>
