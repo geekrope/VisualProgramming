@@ -37,9 +37,8 @@
                 </Grid>
             </DockPanel>
 
-            <Label FontSize="18" Name="PlainText" Grid.Row="1" HorizontalAlignment="Right" Width="200">
-
-            </Label>
+            <TextBox IsReadOnly="True" BorderThickness="0" FontSize="18" Name="PlainText" Grid.Row="1" HorizontalAlignment="Right">
+            </TextBox>
 
             <Grid Grid.Row="1" Name="Playground">
                 <Grid.RowDefinitions>

@@ -54,6 +54,11 @@ namespace VisualProgramming
 
         }
 
+        public virtual (string, int)[] ToCode()
+        {
+            return new (string, int)[] { ("", -1) };
+        }
+
         public CodeBlock(VisualCode container = null, CodeBlock parent = null, Document doc = null)
         {
             Parent = parent;
@@ -139,18 +144,29 @@ namespace VisualProgramming
 
         public override string ToString()
         {
-            var innerCode = "";
+            var text = "";
+
+            Func<int, string> getTabulation = (int tabs) =>
+            {
+                var result = "";
+                for (int i = 0; i < tabs; i++)
+                {
+                    result += "\t";
+                }
+                return result;
+            };
 
             for (int index = 0; index < InnerCode.Count; index++)
             {
-                innerCode += InnerCode[index].ToString();
-                if (index < InnerCode.Count - 1)
+                var innerCodeSnippet = InnerCode[index].ToCode();
+
+                foreach (var item in innerCodeSnippet)
                 {
-                    innerCode += "\n";
+                    text += getTabulation(item.Item2) + item.Item1 + "\n";
                 }
             }
 
-            return innerCode;
+            return text;
         }
     }
 
@@ -195,14 +211,25 @@ namespace VisualProgramming
         {
             InnerCode = new List<CodeBlock>();
         }
-        public override string ToString()
+        public override (string, int)[] ToCode()
         {
-            var innerCode = "";
+            var output = new List<(string, int)>();
+
+            output.Add(("while(" + Condition + ")", 0));
+            output.Add(("{", 0));
+
             foreach (var code in InnerCode)
             {
-                innerCode += "\n" + code.ToString();
+                var codes = code.ToCode();
+                for (int index = 0; index < codes.Length; index++)
+                {
+                    codes[index].Item2++;
+                    output.Add(codes[index]);
+                }
             }
-            return "while(" + Condition + ")\n{" + innerCode + "\n}";
+
+            output.Add(("}", 0));
+            return output.ToArray();
         }
         public override void EndCompilation()
         {
@@ -233,14 +260,25 @@ namespace VisualProgramming
         {
             InnerCode = new List<CodeBlock>();
         }
-        public override string ToString()
+        public override (string, int)[] ToCode()
         {
-            var innerCode = "";
+            var output = new List<(string, int)>();
+
+            output.Add(("if(" + Condition + ")", 0));
+            output.Add(("{", 0));
+
             foreach (var code in InnerCode)
             {
-                innerCode += "\n" + code.ToString();
+                var codes = code.ToCode();
+                for (int index = 0; index < codes.Length; index++)
+                {
+                    codes[index].Item2++;
+                    output.Add(codes[index]);
+                }
             }
-            return "if(" + Condition + ")\n{" + innerCode + "\n}";
+
+            output.Add(("}", 0));
+            return output.ToArray();
         }
     }
 
@@ -264,9 +302,9 @@ namespace VisualProgramming
         {
 
         }
-        public override string ToString()
+        public override (string, int)[] ToCode()
         {
-            return ParameterName + "=" + Value;
+            return new (string, int)[] { (ParameterName + "=" + Value, 0) };
         }
     }
 
@@ -286,9 +324,9 @@ namespace VisualProgramming
         {
 
         }
-        public override string ToString()
+        public override (string, int)[] ToCode()
         {
-            return "console.log(" + Value + ")";
+            return new (string, int)[] { ("console.log(" + Value + ")", 0) };
         }
     }
 
@@ -651,7 +689,8 @@ namespace VisualProgramming
 
         public void UpdateText()
         {
-            PlainText.Content = Document.ToString();
+            PlainText.AcceptsTab = true;
+            PlainText.Text = Document.ToString();
         }
 
         public MainWindow()
