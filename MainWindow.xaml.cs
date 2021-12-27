@@ -77,10 +77,6 @@ namespace VisualProgramming
 
     public class Document : CodeBlock
     {
-        private Dictionary<string, Parameter> OriginalVariables
-        {
-            get; set;
-        }
         private bool CompilationEnded = false;
 
         public Dictionary<string, Parameter> Variables
@@ -91,14 +87,13 @@ namespace VisualProgramming
         public Action CompilatuionEnded;
 
         public void SetValue(string varName, Literal value)
-        {
+        {            
             if (Variables.ContainsKey(varName))
             {
                 Variables[varName].Value = value;
             }
             else
             {
-                OriginalVariables.Add(varName, new Parameter(varName, value));
                 Variables.Add(varName, new Parameter(varName, value));
             }
         }
@@ -107,7 +102,7 @@ namespace VisualProgramming
             MainWindow.ConsoleOutput.Clear();
             MainWindow.OnConsoleChanged();
 
-            Variables = OriginalVariables.ToDictionary(entry => entry.Key, entry => new Parameter(entry.Value.Name, entry.Value.Value));
+            Variables = new Dictionary<string, Parameter>();
             CompilationEnded = false;
 
             foreach (var block in InnerCode)
@@ -138,7 +133,6 @@ namespace VisualProgramming
         public Document() : base(null, null)
         {
             Variables = new Dictionary<string, Parameter>();
-            OriginalVariables = new Dictionary<string, Parameter>();
             InnerCode = new List<CodeBlock>();
         }
 
@@ -177,7 +171,7 @@ namespace VisualProgramming
             get; set;
         }
         private bool CompilationEnded = false;
-        private const long MaxCallStack = 100000000;
+        private const long MaxCallStack = 1000000;
         private int CallsCount = 0;
 
         public override void Compile()
@@ -763,6 +757,11 @@ namespace VisualProgramming
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Document.EndCompilation();
+        }
+
+        private void Stop_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Document.EndCompilation();
         }
