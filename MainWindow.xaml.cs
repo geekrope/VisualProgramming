@@ -690,7 +690,7 @@ namespace VisualProgramming
         public void Resize(double height)
         {
             UpperMenu.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-            PlaygroundScroll.Height = height - OutputScroll.Height - UpperMenu.DesiredSize.Height;
+            PlaygroundScroll.Height = height - OutputScroll.Height - UpperMenu.DesiredSize.Height - 50;
         }
 
         public MainWindow()
@@ -775,7 +775,7 @@ namespace VisualProgramming
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
-        {    
+        {
             Resize(e.NewSize.Height);
         }
 
