@@ -87,7 +87,7 @@ namespace VisualProgramming
         public Action CompilatuionEnded;
 
         public void SetValue(string varName, Literal value)
-        {            
+        {
             if (Variables.ContainsKey(varName))
             {
                 Variables[varName].Value = value;
@@ -171,7 +171,7 @@ namespace VisualProgramming
             get; set;
         }
         private bool CompilationEnded = false;
-        private const long MaxCallStack = 1000000;
+        private const long MaxCallStack = 100000;
         private int CallsCount = 0;
 
         public override void Compile()
@@ -687,6 +687,12 @@ namespace VisualProgramming
             PlainText.Text = Document.ToString();
         }
 
+        public void Resize()
+        {
+            UpperMenu.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+            PlaygroundScroll.Height = this.Height - OutputScroll.Height - UpperMenu.DesiredSize.Height;
+        }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -709,6 +715,8 @@ namespace VisualProgramming
                     Playground.IsEnabled = true;
                 });
             };
+
+            Resize();
         }
 
         private void _AddCondition_Click(object sender, RoutedEventArgs e)
@@ -764,6 +772,16 @@ namespace VisualProgramming
         private void Stop_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Document.EndCompilation();
+        }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Resize();
+        }
+
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
+            Resize();
         }
     }
 }
