@@ -687,10 +687,10 @@ namespace VisualProgramming
             PlainText.Text = Document.ToString();
         }
 
-        public void Resize()
+        public void Resize(double height)
         {
             UpperMenu.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-            PlaygroundScroll.Height = this.Height - OutputScroll.Height - UpperMenu.DesiredSize.Height;
+            PlaygroundScroll.Height = height - OutputScroll.Height - UpperMenu.DesiredSize.Height;
         }
 
         public MainWindow()
@@ -716,7 +716,7 @@ namespace VisualProgramming
                 });
             };
 
-            Resize();
+            Resize(this.Height);
         }
 
         private void _AddCondition_Click(object sender, RoutedEventArgs e)
@@ -775,13 +775,13 @@ namespace VisualProgramming
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            Resize();
+        {    
+            Resize(e.NewSize.Height);
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
         {
-            Resize();
+
         }
     }
 }
